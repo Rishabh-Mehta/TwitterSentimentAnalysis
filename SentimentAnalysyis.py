@@ -460,24 +460,15 @@ if __name__ == '__main__':
     tokenizer = pickle.load(open('vectorizer','rb'))
 
 
-    test_data=pd.read_excel('training-Obama-Romney-tweets.xlsx', sheet_name=[0,1])
-    obama_data = test_data[0]
-    obama_data['index']=obama_data.index
-    romney_data = test_data[1]
-    romney_data['index']=romney_data.index
+    obama_data = pd.read_excel('final-testData-no-label-Obama-tweets(1).xlsx',header=None)
+    romney_data = pd.read_excel('final-testData-no-label-Romney-tweets(1).xlsx',header=None)
+    obama_data[1] = obama_data[1].apply(lambda x: preprocess_text(x))
+    romney_data[1] = romney_data[1].apply(lambda x: preprocess_text(x))
 
-    obama_data = clean_excel(obama_data[1:])
-    romney_data = clean_excel(romney_data[1:])
-
-    obama_data = clean_class(obama_data, np.array([1, 0, -1]))
-    romney_data = clean_class(romney_data, np.array([1, 0, -1]))
-
-    obama_data['Anootated tweet'] = obama_data['Anootated tweet'].apply(lambda x: preprocess_text(x))
-    romney_data['Anootated tweet'] = romney_data['Anootated tweet'].apply(lambda x: preprocess_text(x))
-
-    obama_tweets = tokenizer.texts_to_sequences(obama_data['Anootated tweet'])
-    romney_tweets = tokenizer.texts_to_sequences(romney_data['Anootated tweet'])
-
+    #Tokenize test dataset
+    obama_tweets = tokenizer.texts_to_sequences(obama_data[1])
+    romney_tweets = tokenizer.texts_to_sequences(romney_data[1])
+    #Pad test data sequences
     obama_tweets=pad_sequences(obama_tweets, padding='post', maxlen=50, truncating='pre')
     romney_tweets=pad_sequences(romney_tweets, padding='post', maxlen=50, truncating='pre')
 
@@ -486,22 +477,20 @@ if __name__ == '__main__':
     
     
     
-    #romney_data
-    # write_file(f"( {student_id} \n", './obama.txt','w')
+    student_id ='57'
+    write_file(f"{student_id} \n", './obama.txt','w')
     for i in range(len(obama_data)):
         if(i != len(obama_data)-1):
-            write_file(f"{obama_data.iloc[i]['index']};;{obama_data.iloc[i]['predicted_class']}\n",'./obama.txt','a')
+            write_file(f"{obama_data.iloc[i][0]};;{obama_data.iloc[i]['predicted_class']}\n",'./obama.txt','a')
         else:
-            write_file(f"{obama_data.iloc[i]['index']};;{obama_data.iloc[i]['predicted_class']}",'./obama.txt','a')
-    # write_file("\n)", './obama.txt', "a")
+            write_file(f"{obama_data.iloc[i][0]};;{obama_data.iloc[i]['predicted_class']}",'./obama.txt','a')
 
-    # write_file(f"( {student_id} \n", './romney.txt','w')
+
+    write_file(f"{student_id} \n", './romney.txt','w')
     for i in range(len(romney_data)):
         if(i != len(romney_data)-1):
-            write_file(f"{romney_data.iloc[i]['index']};;{romney_data.iloc[i]['predicted_class']}\n",'./romney.txt','a')
+            write_file(f"{romney_data.iloc[i][0]};;{romney_data.iloc[i]['predicted_class']}\n",'./romney.txt','a')
         else:
-            write_file(f"{romney_data.iloc[i]['index']};;{romney_data.iloc[i]['predicted_class']}",'./romney.txt','a')
-    #write_file("\n)", './romney.txt', "a")
+            write_file(f"{romney_data.iloc[i][0]};;{romney_data.iloc[i]['predicted_class']}",'./romney.txt','a')
 
-    # np.savetxt('./obama.txt',X=obama_data[['index','predicted_class']].astype(int),fmt='%i',delimiter=';;')
-    # np.savetxt('./romney.txt',X=romney_data[['index','predicted_class']].astype(int),fmt='%i',delimiter=';;')
+   
