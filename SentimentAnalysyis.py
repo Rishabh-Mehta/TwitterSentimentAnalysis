@@ -498,9 +498,9 @@ if __name__ == '__main__':
     # write_file(f"( {student_id} \n", './romney.txt','w')
     for i in range(len(romney_data)):
         if(i != len(romney_data)-1):
-            write_file(f"{romney_data.iloc[i]['index']};;{romney_data.iloc[i]['predicted_class']}\n",'./romney_data.txt','a')
+            write_file(f"{romney_data.iloc[i]['index']};;{romney_data.iloc[i]['predicted_class']}\n",'./romney.txt','a')
         else:
-            write_file(f"{romney_data.iloc[i]['index']};;{romney_data.iloc[i]['predicted_class']}",'./romney_data.txt','a')
+            write_file(f"{romney_data.iloc[i]['index']};;{romney_data.iloc[i]['predicted_class']}",'./romney.txt','a')
     #write_file("\n)", './romney.txt', "a")
 
     # np.savetxt('./obama.txt',X=obama_data[['index','predicted_class']].astype(int),fmt='%i',delimiter=';;')
